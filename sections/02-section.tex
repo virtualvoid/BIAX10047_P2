@@ -1,5 +1,135 @@
-﻿\section{Testovanie používateľského rozhrania}
+﻿\section{Getting Started}
 
-TODO:
+\subsection{Požiadavky}
+
+Pre úspešné spustenie prostredia je potrebné mať nainštalované:
+\begin{itemize}
+    \item Docker Desktop,
+    \item .NET SDK (verzia 8 alebo novšia),
+    \item Git (voliteľné).
+\end{itemize}
+
+\paragraph{Poznámka:}
+V prípade problémov so spustením Docker Desktopu je vhodné overiť, či je povolená virtualizácia v systéme BIOS/UEFI.
+
+\subsection{Štruktúra projektu}
+
+Typická mikroservisná aplikácia pozostáva z viacerých služieb:
+\begin{itemize}
+    \item backend API (.NET),
+    \item databáza (napr. SQL Server),
+    \item cache (Redis),
+    \item message broker (RabbitMQ).
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/architecture.png}
+\caption{Zjednodušená architektúra mikroservisnej aplikácie}
+\end{figure}
+
+Jednotlivé služby sú spúšťané ako samostatné kontajnery, pričom Docker Compose zabezpečuje ich vzájomnú komunikáciu 
+prostredníctvom internej siete. Vďaka tomu nie je potrebné manuálne konfigurovať sieťové prepojenia medzi službami.
+
+\subsection{Spustenie aplikácie}
+
+Po stiahnutí projektu je možné aplikáciu spustiť príkazom:
+
+\begin{verbatim}
+docker-compose up --build
+\end{verbatim}
+
+Tento príkaz:
+\begin{itemize}
+    \item zostaví Docker image pre jednotlivé služby,
+    \item vytvorí kontajnery,
+    \item spustí celé prostredie.
+\end{itemize}
+
+\paragraph{Poznámka:}
+Prvé spustenie môže trvať dlhšie v dôsledku sťahovania image-ov a build procesu. 
+V prípade opakovaného spustenia je proces výrazne rýchlejší.
+
+\subsection{Overenie funkčnosti}
+
+Po úspešnom spustení by mali byť dostupné:
+\begin{itemize}
+    \item API služba na definovanom porte (napr. \texttt{http://localhost:5000}),
+    \item databáza na porte 1433,
+    \item RabbitMQ management rozhranie.
+\end{itemize}
+
+\paragraph{Poznámka:}
+Ak niektorá zo služieb nie je dostupná, odporúča sa skontrolovať logy kontajnerov pomocou príkazu:
+\begin{verbatim}
+docker logs <container_name>
+\end{verbatim}
+
+\section{Tutorial: Pridanie novej služby do Docker Compose projektu}
+
+\subsection{Vytvorenie novej služby}
+
+Novú .NET službu vytvoríme príkazom:
+
+\begin{verbatim}
+dotnet new webapi -n MyNewService
+\end{verbatim}
+
+\subsection{Vytvorenie Dockerfile}
+
+V koreňovom adresári služby vytvoríme súbor \texttt{Dockerfile}:
+
+\begin{verbatim}
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY . .
+ENTRYPOINT ["dotnet", "MyNewService.dll"]
+\end{verbatim}
+
+\paragraph{Poznámka:}
+Je dôležité zabezpečiť, aby názov DLL súboru zodpovedal názvu projektu, inak sa kontajner nespustí.
+
+\subsection{Úprava docker-compose.yml}
+
+Do súboru \texttt{docker-compose.yml} pridáme novú službu:
+
+\begin{verbatim}
+mynewservice:
+  build:
+    context: .
+    dockerfile: ./MyNewService/Dockerfile
+  ports:
+    - "5005:80"
+  depends_on:
+    - sqlserver
+\end{verbatim}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/docker-compose.png}
+\caption{Ukážka štruktúry docker-compose.yml}
+\end{figure}
+
+\subsection{Prepojenie služieb}
+
+Docker Compose automaticky vytvára internú sieť, v ktorej služby komunikujú pomocou názvov:
+
+\begin{itemize}
+    \item \texttt{sqlserver} namiesto \texttt{localhost},
+    \item \texttt{redis}, \texttt{rabbitmq} atď.
+\end{itemize}
+
+\paragraph{Poznámka:}
+Použitie \texttt{localhost} v rámci kontajnera vedie k tomu, že sa služba pokúša pripojiť sama na seba, 
+nie na inú službu.
+
+\subsection{Connection string príklad}
+
+\begin{verbatim}
+Server=sqlserver;Database=MyDb;User Id=sa;Password=Your_password123;
+\end{verbatim}
+
+\paragraph{Poznámka:}
+Nesprávne nastavený connection string patrí medzi najčastejšie príčiny nefunkčnosti aplikácie.
 
 \clearpage

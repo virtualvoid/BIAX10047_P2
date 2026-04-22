@@ -1,6 +1,38 @@
 \section{Vyhodnotenie podľa princípov použiteľnosti}
 
-TODO:
+\section{Najčastejšie problémy a ich riešenia}
+
+\subsection{Kontajner sa neustále reštartuje}
+
+\textbf{Príčina:} chyba v konfigurácii alebo databáze.
+
+\textbf{Riešenie:}
+\begin{verbatim}
+docker logs <container>
+\end{verbatim}
+
+\subsection{Služba sa nevie pripojiť na databázu}
+
+\textbf{Príčina:} nesprávny connection string.
+
+\textbf{Riešenie:}
+Použiť názov služby namiesto \texttt{localhost}.
+
+\subsection{Port je obsadený}
+
+\textbf{Príčina:} port už používa iná aplikácia.
+
+\textbf{Riešenie:}
+Zmeniť port v \texttt{docker-compose.yml}.
+
+\subsection{SQL Server sa nespustí}
+
+\textbf{Príčina:} problém s volume alebo oprávneniami.
+
+\textbf{Riešenie:}
+\begin{verbatim}
+docker volume rm <volume_name>
+\end{verbatim}
 
 \clearpage
 

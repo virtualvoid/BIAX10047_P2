@@ -22,6 +22,7 @@
 \usepackage{tabularx}
 \usepackage{cite}
 \usepackage{indentfirst}
+\usepackage{float}
 
 \setlength{\tabcolsep}{7pt}      
 \renewcommand{\arraystretch}{1.15}
@@ -49,7 +50,7 @@
 \renewcommand*{\acronymname}{Zoznam skratiek}
 \makeglossaries
 
-\newacronym{bp}{BP}{Business Process}
+%\newacronym{bp}{BP}{Business Process}
 
 % --- Hyperref MUST be last ---
 \usepackage[hidelinks]{hyperref}
@@ -74,13 +75,14 @@
 \input{01-introduction}                    % 1
 \input{02-section}                         % 2
 \input{03-section}                         % 3
+\input{04-end}                             % 4
 
 \clearpage
 \glsaddallunused
-\printglossary[type=\acronymtype,title={Zoznam skratiek}]
+%\printglossary[type=\acronymtype,title={Zoznam skratiek}]
 
 \clearpage
 \nocite{*}
-\bibliography{refs}
+%\bibliography{refs}
 
 \end{document}

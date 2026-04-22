@@ -1,15 +1,26 @@
 ﻿\section*{Úvod}
 
 Docker Compose predstavuje nástroj umožňujúci definovať a spravovať viacero kontajnerov ako jednu logickú aplikáciu. 
-V prostredí vývoja moderných aplikácií založených na architektúre mikroservisov je jeho využitie prakticky nevyhnutné.
+V prostredí vývoja moderných aplikácií založených na architektúre mikroservisov je jeho využitie prakticky nevyhnutné, 
+keďže umožňuje rýchle a konzistentné spúšťanie komplexného vývojového prostredia.
+
+Na prvý pohľad sa môže zdať, že jeho použitie je jednoduché. 
+V praxi však vývojári často narážajú na problémy spojené s konfiguráciou, sieťovou komunikáciou medzi službami 
+alebo nesprávnym nastavením jednotlivých kontajnerov. Typickým príkladom je situácia, keď aplikácia „funguje na mojom počítači“, 
+no inde ju nie je možné spustiť bez dodatočných úprav.
 
 Cieľom tohto manuálu je poskytnúť jednoduchý a prakticky orientovaný návod na spustenie a rozšírenie lokálneho vývojového prostredia 
-pre .NET mikroservisnú aplikáciu pomocou Docker Compose.
+pre .NET mikroservisnú aplikáciu pomocou Docker Compose. Dôraz je kladený najmä na praktické použitie a riešenie bežných problémov, 
+s ktorými sa možno stretnúť počas vývoja.
 
 Manuál pozostáva z dvoch častí:
 \begin{itemize}
-    \item základný návod (Getting Started),
-    \item pokročilejší návod (Tutorial) zameraný na rozšírenie existujúcej aplikácie.
+    \item základný návod (Getting Started), ktorý popisuje spustenie prostredia,
+    \item pokročilejší návod (Tutorial) zameraný na rozšírenie existujúcej aplikácie o novú službu.
 \end{itemize}
+
+\paragraph{Poznámka:}
+Manuál je navrhnutý tak, aby bol zrozumiteľný aj pre používateľov, ktorí majú s Docker Compose len základné skúsenosti, 
+no zároveň obsahuje aj praktické odporúčania využiteľné v reálnych projektoch.
 
 \clearpage

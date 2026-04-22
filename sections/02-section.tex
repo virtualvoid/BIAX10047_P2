@@ -31,6 +31,32 @@ Typická mikroservisná aplikácia pozostáva z viacerých služieb:
 Jednotlivé služby sú spúšťané ako samostatné kontajnery, pričom Docker Compose zabezpečuje ich vzájomnú komunikáciu 
 prostredníctvom internej siete. Vďaka tomu nie je potrebné manuálne konfigurovať sieťové prepojenia medzi službami.
 
+\clearpage
+
+\subsection{Alternatíva: Aspire 13}
+
+Pri návrhu lokálneho vývojového prostredia je možné využiť aj nástroj Aspire 13, 
+ktorý poskytuje vyššiu úroveň abstrakcie nad správou jednotlivých služieb.
+
+Aspire 13 umožňuje definovať služby a ich závislosti priamo v rámci .NET aplikácie, 
+pričom automaticky rieši ich spúšťanie, prepojenie a konfiguráciu. 
+V porovnaní s Docker Compose tak znižuje množstvo manuálnej konfigurácie.
+
+Napriek týmto výhodám sa pri praktickom použití môžu vyskytnúť určité obmedzenia:
+\begin{itemize}
+    \item menšia flexibilita pri detailnej konfigurácii kontajnerov,
+    \item závislosť na konkrétnom ekosystéme (.NET),
+    \item zložitejšia diagnostika problémov v porovnaní s priamym použitím Docker Compose.
+\end{itemize}
+
+\paragraph{Poznámka:}
+V praxi sa ukazuje, že Aspire 13 je vhodný najmä pre rýchly vývoj a prototypovanie, 
+zatiaľ čo Docker Compose poskytuje väčšiu kontrolu nad výsledným prostredím.
+
+\paragraph{Punch:}
+Pri zložitejších scenároch však môže byť diagnostika problémov menej priamočiara, 
+čo môže viesť k situáciám, keď je potrebné hlbšie pochopiť, čo sa deje „pod kapotou“.
+
 \subsection{Spustenie aplikácie}
 
 Po stiahnutí projektu je možné aplikáciu spustiť príkazom:
@@ -64,6 +90,8 @@ Ak niektorá zo služieb nie je dostupná, odporúča sa skontrolovať logy kont
 \begin{verbatim}
 docker logs <container_name>
 \end{verbatim}
+
+\clearpage
 
 \section{Tutorial: Pridanie novej služby do Docker Compose projektu}
 

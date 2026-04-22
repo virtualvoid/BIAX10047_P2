@@ -1,38 +1,88 @@
 \section{Vyhodnotenie podľa princípov použiteľnosti}
 
+Navrhnutý manuál bol vytvorený s dôrazom na základné princípy použiteľnosti, ako sú zrozumiteľnosť, jednoduchosť a praktická využiteľnosť.
+
+Jednotlivé kroky sú prezentované postupne, aby používateľ nemusel robiť rozhodnutia bez dostatočného kontextu. 
+Zároveň sú doplnené o poznámky a upozornenia, ktoré reflektujú reálne problémy z praxe.
+
+Dôležitým aspektom je aj konzistentnosť – rovnaké pojmy a označenia sú používané naprieč celým dokumentom, 
+čo znižuje riziko nedorozumení. Manuál sa zároveň snaží minimalizovať potrebu dohľadávania informácií z externých zdrojov.
+
+\paragraph{Poznámka:}
+V porovnaní s bežnou dokumentáciou je dôraz kladený menej na teóriu a viac na praktické riešenie problémov, 
+s ktorými sa používateľ reálne stretáva.
+
+\clearpage
+
 \section{Najčastejšie problémy a ich riešenia}
+
+Pri práci s Docker Compose sa používatelia často stretávajú s opakujúcimi sa problémami, 
+ktoré sú väčšinou spôsobené nesprávnou konfiguráciou alebo nepochopením fungovania kontajnerov.
 
 \subsection{Kontajner sa neustále reštartuje}
 
-\textbf{Príčina:} chyba v konfigurácii alebo databáze.
+\textbf{Príčina:} chyba v konfigurácii aplikácie, nesprávny entrypoint alebo problém s databázou.
 
 \textbf{Riešenie:}
 \begin{verbatim}
 docker logs <container>
 \end{verbatim}
 
+Logy kontajnera poskytujú najpresnejšie informácie o príčine problému a mali by byť prvým krokom pri diagnostike.
+
 \subsection{Služba sa nevie pripojiť na databázu}
 
-\textbf{Príčina:} nesprávny connection string.
+\textbf{Príčina:} nesprávny connection string alebo použitie \texttt{localhost}.
 
 \textbf{Riešenie:}
-Použiť názov služby namiesto \texttt{localhost}.
+Použiť názov služby namiesto \texttt{localhost}, napríklad \texttt{sqlserver}.
+
+\paragraph{Poznámka:}
+V rámci Docker siete \texttt{localhost} vždy odkazuje na samotný kontajner, nie na inú službu.
 
 \subsection{Port je obsadený}
 
-\textbf{Príčina:} port už používa iná aplikácia.
+\textbf{Príčina:} port už používa iná aplikácia alebo iný kontajner.
 
 \textbf{Riešenie:}
-Zmeniť port v \texttt{docker-compose.yml}.
+Zmeniť port v \texttt{docker-compose.yml} alebo zastaviť konfliktnú službu.
 
 \subsection{SQL Server sa nespustí}
 
-\textbf{Príčina:} problém s volume alebo oprávneniami.
+\textbf{Príčina:} problém s volume, poškodené dáta alebo nedostatočné oprávnenia.
 
 \textbf{Riešenie:}
 \begin{verbatim}
 docker volume rm <volume_name>
 \end{verbatim}
 
-\clearpage
+\subsection{Zmeny v kóde sa neprejavia}
 
+\textbf{Príčina:} kontajner používa starý image.
+
+\textbf{Riešenie:}
+\begin{verbatim}
+docker-compose up --build
+\end{verbatim}
+
+\paragraph{Poznámka:}
+Docker si cache-uje build kroky, preto je niekedy potrebné vynútiť rebuild.
+
+\subsection{Aplikácia „funguje iba u mňa“}
+
+\textbf{Príčina:} rozdielne prostredie alebo lokálne nastavenia.
+
+\textbf{Riešenie:}
+Používať jednotnú konfiguráciu cez Docker Compose a minimalizovať závislosti na lokálnom prostredí.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/debugging.png}
+\caption{Typická situácia pri hľadaní chyby v konfigurácii}
+\end{figure}
+
+\paragraph{Poznámka:}
+V prípade pretrvávajúcich problémov je často efektívne urobiť krátku prestávku a vrátiť sa k problému neskôr. 
+Tento prístup sa v praxi ukazuje ako prekvapivo účinný.
+
+\clearpage

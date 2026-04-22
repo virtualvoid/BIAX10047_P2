@@ -1,3 +1,3 @@
-# Semestrálka A z predmetu IKS
+# Semestrálka B z predmetu IKS
 
-Manuál/Dokument o testovaní používateľského rozhrania ⭐.
+"Lepší" manuál 📚.
